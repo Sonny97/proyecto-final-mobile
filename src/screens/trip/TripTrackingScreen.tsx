@@ -28,6 +28,7 @@ import { getDirections } from '../../api/googleApis';
 import { decodePolyline } from '../../utils/polylineDecoder';
 import DriverMarker from '../../components/tracking/DriverMarker';
 import TripStatusCard from '../../components/tracking/TripStatusCard';
+import PaymentSheet from '../../components/payment/PaymentSheet';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors, spacing, borderRadius, shadows } from '../../theme';
 
@@ -64,6 +65,14 @@ const TripTrackingScreen = () => {
   >([]);
   const [driverInfo, setDriverInfo] = useState<DriverInfo | null>(null);
   const [estimatedArrival, setEstimatedArrival] = useState<number | undefined>();
+  const [showPaymentSheet, setShowPaymentSheet] = useState(false);
+
+  // Show payment sheet when trip is completed
+  useEffect(() => {
+    if (currentTrip?.status === 'completed') {
+      setShowPaymentSheet(true);
+    }
+  }, [currentTrip?.status]);
 
   // Subscribe to trip updates
   useEffect(() => {
@@ -199,11 +208,57 @@ const TripTrackingScreen = () => {
   }, [tripId, dispatch, navigation]);
 
   const handleCompleteTrip = useCallback(() => {
-    // Navigate to rating screen or show rating modal
+    setShowPaymentSheet(false);
     dispatch(clearTrip());
     dispatch(clearLocations());
     navigation.navigate('MainTabs');
   }, [dispatch, navigation]);
+
+  const handlePaymentSuccess = useCallback(() => {
+    Alert.alert(
+      '¡Pago exitoso!',
+      'Gracias por tu viaje. ¿Te gustaría calificar al conductor?',
+      [
+        {
+          text: 'Más tarde',
+          onPress: handleCompleteTrip,
+        },
+        {
+          text: 'Calificar',
+          onPress: () => {
+            // TODO: Navigate to rating screen
+            handleCompleteTrip();
+          },
+        },
+      ]
+    );
+  }, [handleCompleteTrip]);
+
+  const handlePaymentError = useCallback((error: string) => {
+    Alert.alert(
+      'Error en el pago',
+      `${error}. ¿Deseas intentar de nuevo?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Reintentar',
+          onPress: () => setShowPaymentSheet(true),
+        },
+      ]
+    );
+  }, []);
+
+  const handleClosePaymentSheet = useCallback(() => {
+    setShowPaymentSheet(false);
+  }, []);
+
+  const handleAddPaymentMethod = useCallback(() => {
+    setShowPaymentSheet(false);
+    navigation.navigate('AddPaymentMethod');
+  }, [navigation]);
 
   const handleGoBack = () => {
     if (currentTrip?.status === 'searching') {
@@ -309,6 +364,17 @@ const TripTrackingScreen = () => {
           onComplete={tripStatus === 'completed' ? handleCompleteTrip : undefined}
         />
       </View>
+
+      {/* Payment Sheet Modal */}
+      <PaymentSheet
+        visible={showPaymentSheet}
+        amount={currentTrip?.estimatedPrice || 0}
+        tripId={tripId}
+        onClose={handleClosePaymentSheet}
+        onSuccess={handlePaymentSuccess}
+        onError={handlePaymentError}
+        onAddPaymentMethod={handleAddPaymentMethod}
+      />
     </View>
   );
 };

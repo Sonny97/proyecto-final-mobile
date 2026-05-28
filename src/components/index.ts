@@ -15,3 +15,7 @@ export { default as ConfirmTripButton } from './trip/ConfirmTripButton';
 // Tracking Components
 export { default as DriverMarker } from './tracking/DriverMarker';
 export { default as TripStatusCard } from './tracking/TripStatusCard';
+
+// Payment Components
+export { default as PaymentMethodSelector } from './payment/PaymentMethodSelector';
+export { default as PaymentSheet } from './payment/PaymentSheet';
