@@ -11,3 +11,7 @@ export { default as LocationPicker } from './location/LocationPicker';
 export { default as VehicleCategorySelector } from './trip/VehicleCategorySelector';
 export { default as TripEstimate } from './trip/TripEstimate';
 export { default as ConfirmTripButton } from './trip/ConfirmTripButton';
+
+// Tracking Components
+export { default as DriverMarker } from './tracking/DriverMarker';
+export { default as TripStatusCard } from './tracking/TripStatusCard';

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppRedux';
 import { clearTrip } from '../../redux/slices/tripSlice';
 import { clearLocations } from '../../redux/slices/locationSlice';
@@ -18,10 +19,13 @@ import VehicleCategorySelector from '../../components/trip/VehicleCategorySelect
 import TripEstimate from '../../components/trip/TripEstimate';
 import ConfirmTripButton from '../../components/trip/ConfirmTripButton';
 import { decodePolyline } from '../../utils/polylineDecoder';
+import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors, spacing, borderRadius, shadows, typography } from '../../theme';
 
+type TripRequestNavigationProp = StackNavigationProp<RootStackParamList, 'TripRequest'>;
+
 const TripRequestScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<TripRequestNavigationProp>();
   const dispatch = useAppDispatch();
   const mapRef = useRef<MapView>(null);
 
@@ -60,9 +64,8 @@ const TripRequestScreen = () => {
 
   const handleTripConfirmed = useCallback(
     (tripId: string) => {
-      // Navigate to tracking screen (will be implemented in Phase 3)
-      console.log('Trip confirmed:', tripId);
-      // navigation.navigate('TripTracking', { tripId });
+      // Navigate to tracking screen
+      navigation.navigate('TripTracking', { tripId });
     },
     [navigation]
   );
