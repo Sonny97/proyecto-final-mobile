@@ -12,6 +12,7 @@ import HomeScreen from '../screens/trip/HomeScreen';
 import TripRequestScreen from '../screens/trip/TripRequestScreen';
 import TripTrackingScreen from '../screens/trip/TripTrackingScreen';
 import AddPaymentMethodScreen from '../screens/payment/AddPaymentMethodScreen';
+import TripDetailScreen from '../screens/history/TripDetailScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import HistoryScreen from '../screens/history/HistoryScreen';
 
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   TripRequest: undefined;
   TripTracking: { tripId: string };
   AddPaymentMethod: undefined;
+  TripDetail: { trip: any };
 };
 
 export type AuthStackParamList = {
@@ -118,6 +120,14 @@ const MainStackNavigator = () => {
         component={AddPaymentMethodScreen}
         options={{
           presentation: 'modal',
+          gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen 
+        name="TripDetail" 
+        component={TripDetailScreen}
+        options={{
+          presentation: 'card',
           gestureEnabled: true,
         }}
       />
