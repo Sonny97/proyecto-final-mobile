@@ -9,10 +9,23 @@ import { RootState } from '../redux/store';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import HomeScreen from '../screens/trip/HomeScreen';
+import TripRequestScreen from '../screens/trip/TripRequestScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import HistoryScreen from '../screens/history/HistoryScreen';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  MainTabs: undefined;
+  TripRequest: undefined;
+  TripTracking: { tripId: string };
+};
+
+export type AuthStackParamList = {
+  Login: undefined;
+  Register: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+const AuthStack = createStackNavigator<AuthStackParamList>();
 const Tab = createBottomTabNavigator();
 
 // Tab Navigator for authenticated users
@@ -59,15 +72,36 @@ const TabNavigator = () => {
 };
 
 // Auth Stack for unauthenticated users
-const AuthStack = () => {
+const AuthStackNavigator = () => {
+  return (
+    <AuthStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="Register" component={RegisterScreen} />
+    </AuthStack.Navigator>
+  );
+};
+
+// Main Stack Navigator (includes tabs + modal screens)
+const MainStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="MainTabs" component={TabNavigator} />
+      <Stack.Screen 
+        name="TripRequest" 
+        component={TripRequestScreen}
+        options={{
+          presentation: 'card',
+          gestureEnabled: true,
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -83,7 +117,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <TabNavigator /> : <AuthStack />}
+      {isAuthenticated ? <MainStackNavigator /> : <AuthStackNavigator />}
     </NavigationContainer>
   );
 };

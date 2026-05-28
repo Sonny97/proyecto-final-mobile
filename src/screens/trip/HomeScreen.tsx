@@ -10,11 +10,15 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { MapViewContainer, LocationPicker } from '../../components';
+import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors, spacing, borderRadius, shadows, typography } from '../../theme';
 
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MainTabs'>;
+
 const HomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const [isMapReady, setIsMapReady] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(true);
 
@@ -23,9 +27,7 @@ const HomeScreen = () => {
   }, []);
 
   const handleRequestTrip = useCallback(() => {
-    // Navigate to TripRequestScreen when implemented
-    // navigation.navigate('TripRequest');
-    console.log('Navigate to trip request screen');
+    navigation.navigate('TripRequest');
   }, [navigation]);
 
   const toggleSearchPanel = () => {
