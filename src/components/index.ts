@@ -19,3 +19,6 @@ export { default as TripStatusCard } from './tracking/TripStatusCard';
 // Payment Components
 export { default as PaymentMethodSelector } from './payment/PaymentMethodSelector';
 export { default as PaymentSheet } from './payment/PaymentSheet';
+
+// History Components
+export { default as TripCard } from './history/TripCard';
