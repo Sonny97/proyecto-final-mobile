@@ -10,6 +10,7 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import HomeScreen from '../screens/trip/HomeScreen';
 import TripRequestScreen from '../screens/trip/TripRequestScreen';
+import TripTrackingScreen from '../screens/trip/TripTrackingScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import HistoryScreen from '../screens/history/HistoryScreen';
 
@@ -100,6 +101,14 @@ const MainStackNavigator = () => {
         options={{
           presentation: 'card',
           gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen 
+        name="TripTracking" 
+        component={TripTrackingScreen}
+        options={{
+          presentation: 'card',
+          gestureEnabled: false,
         }}
       />
     </Stack.Navigator>
