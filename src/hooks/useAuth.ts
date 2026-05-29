@@ -14,11 +14,26 @@ export const useAuth = () => {
     return unsubscribe;
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string, navigation?: any) => {
     setLoading(true);
     setError(null);
     try {
-      await loginUser(email, password);
+      // MOCK LOGIN: Permite cualquier usuario/contraseña en desarrollo
+      if (__DEV__) {
+        const mockUser = {
+          uid: 'mock-uid',
+          email,
+          displayName: 'Usuario Mock',
+        };
+        setUser(mockUser);
+        // Si se pasa navigation, navega al Tab principal
+        if (navigation) {
+          navigation.replace?.('HomeScreen');
+        }
+        return mockUser;
+      } else {
+        await loginUser(email, password);
+      }
     } catch (err: any) {
       setError(err.message);
       throw err;

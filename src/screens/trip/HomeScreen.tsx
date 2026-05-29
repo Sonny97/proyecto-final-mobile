@@ -15,7 +15,7 @@ import { MapViewContainer, LocationPicker } from '../../components';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { colors, spacing, borderRadius, shadows, typography } from '../../theme';
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MainTabs'>;
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();

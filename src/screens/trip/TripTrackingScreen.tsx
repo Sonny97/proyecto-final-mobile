@@ -196,7 +196,7 @@ const TripTrackingScreen = () => {
               dispatch(updateTripStatus('cancelled'));
               dispatch(clearTrip());
               dispatch(clearLocations());
-              navigation.navigate('MainTabs');
+              navigation.navigate('HomeScreen');
             } catch (error) {
               console.error('Error cancelling trip:', error);
               Alert.alert('Error', 'No se pudo cancelar el viaje');
@@ -211,7 +211,7 @@ const TripTrackingScreen = () => {
     setShowPaymentSheet(false);
     dispatch(clearTrip());
     dispatch(clearLocations());
-    navigation.navigate('MainTabs');
+    navigation.navigate('HomeScreen');
   }, [dispatch, navigation]);
 
   const handlePaymentSuccess = useCallback(() => {

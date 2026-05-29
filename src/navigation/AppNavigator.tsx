@@ -17,7 +17,7 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import HistoryScreen from '../screens/history/HistoryScreen';
 
 export type RootStackParamList = {
-  MainTabs: undefined;
+  HomeScreen: undefined;
   TripRequest: undefined;
   TripTracking: { tripId: string };
   AddPaymentMethod: undefined;
@@ -98,7 +98,9 @@ const MainStackNavigator = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="MainTabs" component={TabNavigator} />
+      {/* Agregamos el TabNavigator como pantalla principal */}
+      <Stack.Screen name="HomeScreen" component={TabNavigator} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen 
         name="TripRequest" 
         component={TripRequestScreen}
